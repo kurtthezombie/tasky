@@ -1,46 +1,16 @@
-import { useState, useEffect } from "react";
-import { useTasks } from "@/common/hooks/useTasks";
 import { statusClass } from "@/common/constants/task";
+import { formatTime } from "@/common/utils/formatTime";
+import { useLogic } from "../useLogic";
 
 export const TaskTimer = () => {
-  const [title, setTitle] = useState("");
-  const { tasks, addTask, removeTask, updateTask } = useTasks();
-
-  const [runningTaskId, setRunningTaskId] = useState<number | null>(null);
-
-  const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
-  const [editingTitle, setEditingTitle] = useState("");
-
-  const handleAddTask = () => {
-    if (!title.trim()) return;
-    addTask(title);
-    setTitle("");
-  };
-
-  const formatTime = (seconds: number) => {
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-
-    return [
-      String(hrs).padStart(2, "0"),
-      String(mins).padStart(2, "0"),
-      String(secs).padStart(2, "0"),
-    ].join(":");
-  }
-  
-  useEffect(() => {
-    if (runningTaskId === null) return;
-
-    const interval = setInterval(() => {
-      const task = tasks.find(t => t.id === runningTaskId);
-      if (task) {
-        updateTask(runningTaskId, { time: task.time + 1 });
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [runningTaskId, updateTask]);
+  const {
+    title, setTitle,
+    runningTaskId, setRunningTaskId,
+    editingTaskId, setEditingTaskId,
+    editingTitle, setEditingTitle,
+    handleAddTask,
+    tasks, removeTask, updateTask
+  } = useLogic();
 
   return (
     <>
@@ -87,6 +57,7 @@ export const TaskTimer = () => {
                     <div className="flex gap-2">
                       <button
                         className="btn btn-sm btn-ghost btn-square"
+                        disabled={ runningTaskId !== null && runningTaskId !== task.id }
                         onClick={() => {
                           if (runningTaskId === task.id) {
                             setRunningTaskId(null); // pause
