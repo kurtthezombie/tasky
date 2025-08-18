@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTasks } from "@/common/hooks/useTasks";
 import { statusClass } from "@/common/constants/task";
 
@@ -16,7 +16,32 @@ export const TaskTimer = () => {
     addTask(title);
     setTitle("");
   };
+
+  const formatTime = (seconds: number) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    return [
+      String(hrs).padStart(2, "0"),
+      String(mins).padStart(2, "0"),
+      String(secs).padStart(2, "0"),
+    ].join(":");
+  }
   
+  useEffect(() => {
+    if (runningTaskId === null) return;
+
+    const interval = setInterval(() => {
+      const task = tasks.find(t => t.id === runningTaskId);
+      if (task) {
+        updateTask(runningTaskId, { time: task.time + 1 });
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [runningTaskId, updateTask]);
+
   return (
     <>
     <div>
@@ -57,7 +82,7 @@ export const TaskTimer = () => {
                     ) : (
                       <h1 className="card-title text-lg break-all">{task.title}</h1>
                     )}
-                      <h1 className="text-xl text-gray-500">{task.time}</h1>
+                      <h1 className="text-xl text-gray-500">{formatTime(task.time)}</h1>
                     </div>
                     <div className="flex gap-2">
                       <button

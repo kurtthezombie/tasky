@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
     <Head>
-      <title>Task Timer</title>
+      <title>Tasky</title>
     </Head>
     <Landing />
     <Footer />
