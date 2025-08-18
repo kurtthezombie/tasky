@@ -8,7 +8,7 @@ export const TaskTimer = () => {
     runningTaskId, setRunningTaskId,
     editingTaskId, setEditingTaskId,
     editingTitle, setEditingTitle,
-    handleAddTask,
+    handleAddTask, toggleTask,
     tasks, removeTask, updateTask
   } = useLogic();
 
@@ -25,7 +25,11 @@ export const TaskTimer = () => {
           <button className="btn btn-neutral btn-md" onClick={handleAddTask}>+ Add</button>
         </div>
       </div>
+      
       <div className="flex justify-center mt-10">
+      {tasks.length === 0 ? (
+        <p className="text-gray-500 text-lg">No tasks yet - add one to get started</p>
+      ) : (
         <ul className="space-y-3">
           {tasks.map(task => (
             <li key={task.id}>
@@ -58,13 +62,7 @@ export const TaskTimer = () => {
                       <button
                         className="btn btn-sm btn-ghost btn-square"
                         disabled={ runningTaskId !== null && runningTaskId !== task.id }
-                        onClick={() => {
-                          if (runningTaskId === task.id) {
-                            setRunningTaskId(null); // pause
-                          } else {
-                            setRunningTaskId(task.id); // play
-                          }
-                        }}
+                        onClick={() => toggleTask(task.id)}
                       >
                         {runningTaskId === task.id ? (
                           // pause icon
@@ -98,6 +96,7 @@ export const TaskTimer = () => {
             </li>
           ))}
         </ul>
+        )}
       </div>
     </div>
     </>

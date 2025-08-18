@@ -15,6 +15,19 @@ export const useLogic = () => {
     setTitle("");
   };
 
+  const toggleTask = (taskId: number) => {
+    if (runningTaskId === taskId) {
+      updateTask(taskId, { status: "pending" });
+      setRunningTaskId(null);
+    } else {
+      if (runningTaskId !== null) {
+        updateTask(runningTaskId, { status: "pending" });
+      }
+      updateTask(taskId, { status: "in-progress" });
+      setRunningTaskId(taskId);
+      }
+  };
+
   useEffect(() => {
     if (runningTaskId === null) return;
 
@@ -34,8 +47,8 @@ export const useLogic = () => {
     editingTaskId, setEditingTaskId,
     editingTitle, setEditingTitle,
 
-    handleAddTask,
+    handleAddTask, toggleTask,
 
-    tasks, addTask, removeTask, updateTask
+    tasks, addTask, removeTask, updateTask 
   };
 };

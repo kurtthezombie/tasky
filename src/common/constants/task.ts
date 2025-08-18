@@ -1,4 +1,4 @@
-export type TaskStatus = "pending" | "running" | "completed" | "failed";
+export type TaskStatus = "pending" | "in-progress" | "completed" | "failed";
 
 export interface Task {
  id: number,
@@ -9,7 +9,7 @@ export interface Task {
 
 export const statusClass: Record<TaskStatus, string> = {
   pending: "badge badge-sm badge-soft badge-warning",
-  running: "badge badge-sm badge-soft badge-info",
+  "in-progress": "badge badge-sm badge-soft badge-info",
   completed: "badge badge-sm badge-soft badge-success",
   failed: "badge badge-sm badge-soft badge-error",
 }
