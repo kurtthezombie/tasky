@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTasks } from "@/common/hooks/useTasks";
+import { toast } from "react-toastify";
 
 export const useLogic = () => {
   const { tasks, addTask, removeTask, updateTask } = useTasks();
@@ -10,8 +11,20 @@ export const useLogic = () => {
   const [editingTitle, setEditingTitle] = useState("");
 
   const handleAddTask = () => {
-    if (!title.trim()) return;
-    addTask(title);
+    const trimmed = title.trim();
+    if(!trimmed) return;
+
+    const isDuplicate = tasks.some(
+      (task) => task.title.trim().toLowerCase() === trimmed.toLowerCase()
+    );
+
+    if (isDuplicate){
+      toast.error("Task title must be unique!");
+      return;
+    }
+
+    addTask(trimmed);
+    toast.success("Task added successfully!");
     setTitle("");
   };
 
@@ -19,13 +32,16 @@ export const useLogic = () => {
     if (runningTaskId === taskId) {
       updateTask(taskId, { status: "pending" });
       setRunningTaskId(null);
+      toast("Task paused");
     } else {
       if (runningTaskId !== null) {
         updateTask(runningTaskId, { status: "pending" });
+        toast.info("Previous task paused");
       }
       updateTask(taskId, { status: "in-progress" });
       setRunningTaskId(taskId);
-      }
+      toast("Task started");
+    }
   };
 
   useEffect(() => {

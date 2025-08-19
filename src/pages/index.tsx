@@ -11,8 +11,12 @@ export default function Home() {
     <Head>
       <title>Tasky</title>
     </Head>
-    <Landing />
-    <Footer />
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-1">
+        <Landing />
+      </main>
+      <Footer />
+    </div>
     </>
   );
 }

@@ -30,10 +30,10 @@ export const TaskTimer = () => {
       {tasks.length === 0 ? (
         <p className="text-gray-500 text-lg">No tasks yet - add one to get started</p>
       ) : (
-        <ul className="space-y-3">
+        <ul className="space-y-3 max-h-[70vh] overflow-y-auto pr-2">
           {tasks.map(task => (
             <li key={task.id}>
-              <div className="card w-96 bg-base-100 card-xs shadow-md p-3">
+              <div className="card w-96 bg-base-100 card-xs shadow-lg p-3">
                 <div className="card-body">
                   <div className="flex justify-between items-start">
                     <div className="flex flex-col gap-1">
