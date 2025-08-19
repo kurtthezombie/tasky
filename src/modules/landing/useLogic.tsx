@@ -31,10 +31,18 @@ export const useLogic = () => {
   useEffect(() => {
     if (runningTaskId === null) return;
 
+    let lastTick = Date.now();
+
     const interval = setInterval(() => {
-      const task = tasks.find(t => t.id === runningTaskId);
-      if (task) {
-        updateTask(runningTaskId, { time: task.time + 1 });
+      const now = Date.now();
+      const diff = Math.floor((now - lastTick) / 1000);
+
+      if (diff > 0) {
+        const task = tasks.find(t => t.id === runningTaskId);
+        if (task) {
+          updateTask(runningTaskId, { time: task.time + diff });
+        }
+        lastTick = now;
       }
     }, 1000);
 
