@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Task } from '../constants/task';
+import { toast } from 'react-toastify';
 
 export function useTasks() {
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -16,12 +17,14 @@ export function useTasks() {
 
     const removeTask = (id: number) => {
       setTasks(prev => prev.filter(task => task.id !== id));
+      toast.error(`Task removed`);
     };
 
     const updateTask = (id: number, updates: Partial<Task>) => {
       setTasks(prev =>
         prev.map(task => (task.id === id ? { ...task, ...updates } : task ))
       );
+      toast.success(`Task updated`);
     };
 
     return {
