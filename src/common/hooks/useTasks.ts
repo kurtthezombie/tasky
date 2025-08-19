@@ -24,7 +24,6 @@ export function useTasks() {
       setTasks(prev =>
         prev.map(task => (task.id === id ? { ...task, ...updates } : task ))
       );
-      toast.success(`Task updated`);
     };
 
     return {
