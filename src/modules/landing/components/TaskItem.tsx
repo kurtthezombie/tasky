@@ -11,6 +11,7 @@ interface TaskItemProps {
   toggleTask: (id: number) => void;
   updateTask: (id: number, updates: Partial<Task>) => void;
   removeTask: (id: number) => void;
+  markTaskDone: (id: number) => void;
 }
 
 export const TaskItem = ({
@@ -23,6 +24,7 @@ export const TaskItem = ({
   toggleTask,
   updateTask,
   removeTask,
+  markTaskDone
 }: TaskItemProps) => {
   return (
   <li key={task.id}>
@@ -47,17 +49,22 @@ export const TaskItem = ({
                 autoFocus
               />
             ) : (
-              <h1 className="card-title text-lg break-all">{task.title}</h1>
+              <h1 
+                className={`card-title text-lg break-all ${
+                task.status === "completed" ? "line-through text-gray-400" : ""
+                }`}>
+                {task.title}
+              </h1>
             )}
             <h1 className="text-xl text-gray-500">{formatTime(task.time)}</h1>
           </div>
 
           <div className="flex gap-2">
-            <button
-              className="btn btn-sm btn-ghost btn-square"
-              disabled={runningTaskId !== null && runningTaskId !== task.id}
-              onClick={() => toggleTask(task.id)}
-            >
+            {task.status !== "completed" && (
+              <button
+                className="btn btn-sm btn-ghost btn-square"
+                onClick={() => toggleTask(task.id)}
+              >
               {runningTaskId === task.id ? (
                 // pause icon
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -70,7 +77,29 @@ export const TaskItem = ({
                 </svg>
               )}
             </button>
-
+            )}
+            {task.status !== "completed" && (
+              <button
+                  className="btn btn-sm btn-ghost btn-square text-green-500"
+                  onClick={() => markTaskDone(task.id)}
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4.5 12.75l6 6 9-13.5"
+                  />
+                </svg>
+              </button>
+            )}
+            
             <button
               className="btn btn-sm btn-ghost btn-square"
               onClick={() => {

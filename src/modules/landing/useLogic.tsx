@@ -44,6 +44,14 @@ export const useLogic = () => {
     }
   };
 
+  const markTaskDone = (taskId: number) => {
+    updateTask(taskId, { status: "completed" });
+    if (runningTaskId === taskId) {
+      setRunningTaskId(null);
+    }
+    toast.success("Task marked as done!");
+  };
+
   useEffect(() => {
     if (runningTaskId === null) return;
 
@@ -71,7 +79,7 @@ export const useLogic = () => {
     editingTaskId, setEditingTaskId,
     editingTitle, setEditingTitle,
 
-    handleAddTask, toggleTask,
+    handleAddTask, toggleTask, markTaskDone,
 
     tasks, addTask, removeTask, updateTask 
   };

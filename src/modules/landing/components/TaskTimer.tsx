@@ -7,7 +7,7 @@ export const TaskTimer = () => {
     runningTaskId, setRunningTaskId,
     editingTaskId, setEditingTaskId,
     editingTitle, setEditingTitle,
-    handleAddTask, toggleTask,
+    handleAddTask, toggleTask, markTaskDone,
     tasks, removeTask, updateTask
   } = useLogic();
 
@@ -36,6 +36,7 @@ export const TaskTimer = () => {
           toggleTask={toggleTask}
           updateTask={updateTask}
           removeTask={removeTask}
+          markTaskDone={markTaskDone}
         />
       </div>
     </div>
