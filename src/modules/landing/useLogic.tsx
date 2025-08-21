@@ -3,7 +3,7 @@ import { useTasks } from "@/common/hooks/useTasks";
 import { toast } from "react-toastify";
 
 export const useLogic = () => {
-  const { tasks, addTask, removeTask, updateTask } = useTasks();
+  const { tasks, addTask, removeTask, updateTask, clearTask } = useTasks();
 
   const [title, setTitle] = useState("");
   const [runningTaskId, setRunningTaskId] = useState<number | null>(null);
@@ -27,6 +27,10 @@ export const useLogic = () => {
     toast.success("Task added successfully!");
     setTitle("");
   };
+
+  const handleClearTask = () => {
+    clearTask();
+  }
 
   const toggleTask = (taskId: number) => {
     if (runningTaskId === taskId) {
@@ -79,8 +83,8 @@ export const useLogic = () => {
     editingTaskId, setEditingTaskId,
     editingTitle, setEditingTitle,
 
-    handleAddTask, toggleTask, markTaskDone,
+    handleAddTask, toggleTask, markTaskDone, handleClearTask,
 
-    tasks, addTask, removeTask, updateTask 
+    tasks, addTask, removeTask, updateTask
   };
 };

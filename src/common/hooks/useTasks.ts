@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Task } from '../constants/task';
 import { toast } from 'react-toastify';
+import { useLocalStorage } from './useLocalStorage';
 
 export function useTasks() {
-    const [tasks, setTasks] = useState<Task[]>([]);
+    const [tasks, setTasks] = useLocalStorage<Task[]>("tasks", []);
 
     const addTask = (title: string) => {
       const t = title.trim();
@@ -26,10 +27,16 @@ export function useTasks() {
       );
     };
 
+    const clearTask = () => {
+      setTasks([]);
+      toast.info("All tasks cleared");
+    };
+
     return {
       tasks,
       addTask,
       removeTask,
       updateTask,
+      clearTask,
     };
 }
