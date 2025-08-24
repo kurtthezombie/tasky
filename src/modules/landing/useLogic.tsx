@@ -49,11 +49,18 @@ export const useLogic = () => {
   };
 
   const markTaskDone = (taskId: number) => {
-    updateTask(taskId, { status: "completed" });
-    if (runningTaskId === taskId) {
-      setRunningTaskId(null);
-    }
-    toast.success("Task marked as done!");
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    updateTask(taskId, { status: task.status === "completed" 
+      ? "pending"
+      : "completed"
+    });
+
+    // updateTask(taskId, { status: "completed" });
+    // if (runningTaskId === taskId) {
+    //   setRunningTaskId(null);
+    // }
   };
 
   useEffect(() => {
