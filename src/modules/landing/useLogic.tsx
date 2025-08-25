@@ -51,16 +51,15 @@ export const useLogic = () => {
   const markTaskDone = (taskId: number) => {
     const task = tasks.find(t => t.id === taskId);
     if (!task) return;
-
+    
     updateTask(taskId, { status: task.status === "completed" 
       ? "pending"
       : "completed"
     });
 
-    // updateTask(taskId, { status: "completed" });
-    // if (runningTaskId === taskId) {
-    //   setRunningTaskId(null);
-    // }
+    if(runningTaskId === taskId && task.status !== "completed") {
+      setRunningTaskId(null);
+    }
   };
 
   useEffect(() => {

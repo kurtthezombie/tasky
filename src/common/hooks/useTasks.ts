@@ -37,6 +37,6 @@ export function useTasks() {
       addTask,
       removeTask,
       updateTask,
-      clearTask,
+      clearTask,  
     };
 }

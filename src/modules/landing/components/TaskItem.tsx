@@ -1,5 +1,7 @@
 import { statusClass, Task } from "@/common/constants/task";
 import { formatTime } from "@/common/utils/formatTime";
+import PausePlayBtn from "./PausePlayBtn";
+import CheckBtn from "./CheckBtn";
 
 interface TaskItemProps {
   task: Task;
@@ -65,50 +67,14 @@ export const TaskItem = ({
           </div>
 
           <div className="flex gap-2">
+            
             {task.status !== "completed" && (
-              <button
-                className="btn btn-sm btn-ghost btn-square"
-                onClick={() => toggleTask(task.id)}
-              >
-              {runningTaskId === task.id ? (
-                // pause icon
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
-                </svg>
-              ) : (
-                // play icon
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
-                </svg>
-              )}
-            </button>
+              <PausePlayBtn task={task} runningTaskId={runningTaskId} toggleTask={toggleTask} />
             )}
-            <button
-                className={`btn btn-sm btn-ghost btn-square ${doneButtonClass}`}
-                onClick={() => markTaskDone(task.id)}
-              >
-            {task.status === "completed" ? (
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-            ): (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4.5 12.75l6 6 9-13.5"
-                />
-              </svg>
-            )}
-            </button>
-          
+
+            {/* mark as done buttons */}
+            <CheckBtn task={task} markTaskDone={markTaskDone} doneButtonClass={doneButtonClass} />
+            
             <button
               className="btn btn-sm btn-ghost btn-square"
               onClick={() => {
