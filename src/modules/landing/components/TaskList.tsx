@@ -28,15 +28,17 @@ export const TaskList = ({
 }: TaskListProps) => {
   if (tasks.length === 0) {
     return (
-      <p className="text-gray-500 text-lg">
-        No tasks yet - add one to get started
-      </p>
+      <div className="empty-state">
+        <span className="empty-mark" aria-hidden="true">✓</span>
+        <h3>A fresh start.</h3>
+        <p>Add your first task above, then press play when you’re ready.</p>
+      </div>
     );
   }
 
   return (
-    <ul className="space-y-3 max-h-[70vh] overflow-y-auto pr-2">
-      {tasks
+    <ul className="task-list">
+      {[...tasks]
         .sort((a, b) => {
           if (a.status === "completed" && b.status !== "completed") return 1;
           if (a.status !== "completed" && b.status === "completed") return -1;

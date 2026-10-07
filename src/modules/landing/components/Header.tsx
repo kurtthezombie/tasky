@@ -1,10 +1,18 @@
+import Image from "next/image";
+import Link from "next/link";
+
 export const Header = () => {
   return (
   <>
   
-  <div className="bg-black flex w-full h-16 flex justify-center items-center">
-    <h1 className="text-white text-xl hover:text-purple-400">tasky</h1>
-  </div>
+  <header className="app-header">
+    <div className="header-inner">
+      <Link href="/" aria-label="Tasky home" className="brand">
+        <Image src="/logo.png" alt="Tasky" width={2172} height={724} priority />
+      </Link>
+      <span className="header-note">A little focus, every day.</span>
+    </div>
+  </header>
   </>
   );
 }

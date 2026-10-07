@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="text-center mt-4 mb-4">
+    <footer className="app-footer">
       kurtthezombie © {new Date().getFullYear()}
     </footer>
   );

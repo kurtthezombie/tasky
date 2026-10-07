@@ -4,7 +4,7 @@ import { TaskList } from "./TaskList";
 export const TaskTimer = () => {
   const {
     title, setTitle,
-    runningTaskId, setRunningTaskId,
+    runningTaskId,
     editingTaskId, setEditingTaskId,
     editingTitle, setEditingTitle,
     handleAddTask, toggleTask, markTaskDone, handleClearTask,
@@ -13,26 +13,32 @@ export const TaskTimer = () => {
 
   return (
     <>
-    <div>
-      <div className="flex justify-center items-center mt-10 gap-1">
+    <section className="workspace" aria-labelledby="tasks-heading">
+      <div className="workspace-heading">
         <div>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} className="input input-md w-80" type="text" onKeyDown={(e) => {
-              if (e.key === "Enter") handleAddTask();
-            }} placeholder="Enter task name..."/>
+          <p className="eyebrow">YOUR WORKSPACE</p>
+          <h1 id="tasks-heading">One task at a time.</h1>
+          <p className="workspace-description">Write it down. Start the timer. Find your focus.</p>
         </div>
-        <div className="flex flex-row">
-          <button className="btn btn-neutral btn-md" onClick={handleAddTask}>+ Add</button>
+      </div>
+      <form className="task-composer" onSubmit={(event) => { event.preventDefault(); handleAddTask(); }}>
+          <label className="sr-only" htmlFor="task-title">Task name</label>
+          <input id="task-title" value={title} onChange={(e) => setTitle(e.target.value)} className="input task-input" type="text" placeholder="What are you working on?" autoComplete="off" />
+          <button className="btn add-task" type="submit" disabled={!title.trim()}>+ Add task</button>
+      </form>
+      <div className="list-heading">
+        <h2>Your tasks <span className="task-count">{tasks.length}</span></h2>
+        <div className="list-tools">
+          {tasks.length > 0 && <span className="completion-count">{tasks.filter(task => task.status === "completed").length} completed</span>}
           {tasks.length > 1 && (
-            <button className="btn btn-ghost btn-md" onClick={handleClearTask}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-              </svg>
+            <button className="btn btn-ghost btn-sm clear-tasks" onClick={handleClearTask}>
+              Clear all
             </button>
           )}
         </div>
       </div>
       
-      <div className="flex justify-center mt-10">
+      <div>
         <TaskList 
           tasks={tasks}
           editingTaskId={editingTaskId}
@@ -46,7 +52,7 @@ export const TaskTimer = () => {
           markTaskDone={markTaskDone}
         />
       </div>
-    </div>
+    </section>
     </>
   );
 };

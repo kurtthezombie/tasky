@@ -30,19 +30,20 @@ export const TaskItem = ({
 }: TaskItemProps) => {
   
   const doneButtonClass = task.status === "completed"
-    ? "text-gray-400"
-    : "text-green-500";
+    ? "done-action"
+    : "complete-action";
 
   return (
   <li key={task.id}>
-    <div className="card w-96 bg-base-100 card-xs shadow-md p-3 my-1">
-      <div className="card-body">
-        <div className="flex justify-between items-start">
-          <div className="flex flex-col gap-1">
+    <div className={`task-card ${runningTaskId === task.id ? "is-running" : ""} ${task.status === "completed" ? "is-completed" : ""}`}>
+      <div>
+        <div className="task-row">
+          <div className="task-details">
             <h5 className={statusClass[task.status]}>{task.status}</h5>
             {editingTaskId === task.id ? (
               <input
                 type="text"
+                aria-label="Edit task name"
                 value={editingTitle}
                 onChange={(e) => setEditingTitle(e.target.value)}
                 onKeyDown={(e) => {
@@ -56,17 +57,17 @@ export const TaskItem = ({
                 autoFocus
               />
             ) : (
-              <h1 
-                className={`card-title text-lg break-all ${
-                task.status === "completed" ? "line-through text-gray-400" : ""
+              <h3
+                className={`task-title ${
+                task.status === "completed" ? "line-through" : ""
                 }`}>
                 {task.title}
-              </h1>
+              </h3>
             )}
-            <h1 className="text-xl text-gray-500">{formatTime(task.time)}</h1>
+            <p className="task-time">{formatTime(task.time)}</p>
           </div>
 
-          <div className="flex gap-2">
+          <div className="task-actions">
             
             {task.status !== "completed" && (
               <PausePlayBtn task={task} runningTaskId={runningTaskId} toggleTask={toggleTask} />
@@ -77,6 +78,8 @@ export const TaskItem = ({
             
             <button
               className="btn btn-sm btn-ghost btn-square"
+              aria-label={`Edit ${task.title}`}
+              title="Edit task"
               onClick={() => {
                 setEditingTaskId(task.id);
                 setEditingTitle(task.title);
@@ -89,6 +92,8 @@ export const TaskItem = ({
 
             <button
               className="btn btn-sm btn-ghost btn-square"
+              aria-label={`Delete ${task.title}`}
+              title="Delete task"
               onClick={() => removeTask(task.id)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">

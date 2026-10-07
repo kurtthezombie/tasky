@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Task } from '../constants/task';
 import { toast } from 'react-toastify';
 import { useLocalStorage } from './useLocalStorage';

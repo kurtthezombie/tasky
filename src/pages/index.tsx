@@ -1,7 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-import styles from "@/styles/Home.module.css";
 import { Landing } from "@/modules/landing";
 import { Footer } from "@/modules/footer";
 
@@ -10,6 +7,7 @@ export default function Home() {
     <>
     <Head>
       <title>Tasky</title>
+      <meta name="description" content="Keep your tasks in one place and make time for focused work." />
     </Head>
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">

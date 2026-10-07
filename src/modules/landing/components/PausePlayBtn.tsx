@@ -10,6 +10,8 @@ const PausePlayBtn = ({ task, runningTaskId, toggleTask }: PausePlayBtnProps) =>
   return (
     <button
         className="btn btn-sm btn-ghost btn-square"
+        aria-label={`${runningTaskId === task.id ? "Pause" : "Start"} ${task.title}`}
+        title={runningTaskId === task.id ? "Pause timer" : "Start timer"}
         onClick={() => toggleTask(task.id)}
       >
       {runningTaskId === task.id ? (
